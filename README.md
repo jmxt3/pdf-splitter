@@ -26,7 +26,7 @@ Choose your operating system and follow the simple steps:
 
 2. **Download this tool**:
    - Click the green "Code" button on this page → "Download ZIP"
-   - Extract the ZIP file to a folder (e.g., `C:\machete-splitter`)
+   - Extract the ZIP file to a folder (e.g., `C:\pdf-splitter`)
 
 3. **Install the tool**:
    - Press `Windows + R`, type `cmd`, and press Enter
@@ -85,7 +85,7 @@ You should see the help message with usage instructions.
 
 ### 🔧 Troubleshooting
 
-**Problem: "machete-splitter: command not found"**
+**Problem: "pdf-splitter: command not found"**
 - **Solution**: Make sure Python's Scripts directory is in your PATH
 - **Windows**: Reinstall Python and check "Add Python to PATH"
 - **macOS/Linux**: Try `python -m pip install --user -e .` instead
