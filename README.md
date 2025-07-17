@@ -1,8 +1,9 @@
 # PDF Splitter CLI
 
 [![PyPI version](https://badge.fury.io/py/pdf-splitter-cli.svg)](https://badge.fury.io/py/pdf-splitter-cli)
-[![Python Support](https://img.shields.io/pypi/pyversions/pdf-splitter-cli.svg)](https://pypi.org/project/pdf-splitter-cli/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python Support](https://img.shields.io/pypi/pyversions/pdf-splitter-cli.svg)](https://pypi.org/project/pdf-splitter-cli/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+![PDF Splitter Logo](logo.png)
 
 A modern command-line tool to split BIG PDF files into smaller chunks with **real-time progress bars** and automatic filename generation.
 
