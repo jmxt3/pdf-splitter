@@ -91,21 +91,12 @@ twine upload dist/*
 4. Configure token:
 
 ```bash
-# Create ~/.pypirc file
-cat > ~/.pypirc << EOF
-[distutils]
-index-servers = pypi testpypi
-
-[pypi]
-username = __token__
-password = pypi-your-api-token-here
-
-[testpypi]
-repository = https://test.pypi.org/legacy/
-username = __token__
-password = pypi-your-test-api-token-here
-EOF
+# Copy the template and edit with your tokens
+cp .pypirc.template ~/.pypirc
+# Edit ~/.pypirc and replace YOUR_*_TOKEN_HERE with actual tokens
 ```
+
+**Important**: Never commit `.pypirc` to Git! It contains sensitive API tokens.
 
 ### Option 2: Username/Password
 

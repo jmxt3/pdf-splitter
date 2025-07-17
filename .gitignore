@@ -10,7 +10,18 @@ wheels/
 
 # Virtual environments
 .venv
+
+# PyPI credentials (contains API tokens)
+.pypirc
+
+# Test files and outputs
 *.pdf
 output-folder/*
+output_chunks/*
 llm_context/*
 llm_context/
+
+# Development files
+demo_progress.py
+test_*.py
+PYPI_*.md

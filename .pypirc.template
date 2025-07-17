@@ -1,0 +1,18 @@
+# PyPI Configuration Template
+# Copy this file to ~/.pypirc and replace the tokens with your actual API tokens
+# 
+# To get API tokens:
+# 1. Production PyPI: https://pypi.org/manage/account/token/
+# 2. Test PyPI: https://test.pypi.org/manage/account/token/
+
+[distutils]
+index-servers = pypi testpypi
+
+[pypi]
+username = __token__
+password = pypi-YOUR_PRODUCTION_PYPI_TOKEN_HERE
+
+[testpypi]
+repository = https://test.pypi.org/legacy/
+username = __token__
+password = pypi-YOUR_TEST_PYPI_TOKEN_HERE
