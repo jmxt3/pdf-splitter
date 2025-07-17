@@ -3,7 +3,7 @@
 [![PyPI version](https://badge.fury.io/py/pdf-splitter-cli.svg)](https://badge.fury.io/py/pdf-splitter-cli)
 [![Python Support](https://img.shields.io/pypi/pyversions/pdf-splitter-cli.svg)](https://pypi.org/project/pdf-splitter-cli/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-![PDF Splitter Logo](logo.png)
+![PDF Splitter Logo](https://github.com/jmxt3/pdf-splitter/blob/main/logo.png?raw=true)
 
 A modern command-line tool to split BIG PDF files into smaller chunks with **real-time progress bars** and automatic filename generation.
 
@@ -210,6 +210,7 @@ Found a bug or have a feature request? Please open an issue on [GitHub](https://
 
 ## 🏷️ Version History
 
+- **0.1.2**: Updated PyPI page with complete README content including standalone executables
 - **0.1.1**: Added standalone executables for Windows, macOS, and Linux
 - **0.1.0**: Initial release with progress bars and robust error handling
 
