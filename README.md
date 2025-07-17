@@ -26,9 +26,7 @@ A modern command-line tool to split BIG PDF files into smaller chunks with **rea
 
 **Download the standalone executable - no Python installation required!**
 
-1. **Windows**: Download `pdf-splitter.exe` from [Releases](https://github.com/jmxt3/pdf-splitter/releases)
-2. **macOS**: Download `pdf-splitter` from [Releases](https://github.com/jmxt3/pdf-splitter/releases)
-3. **Linux**: Download `pdf-splitter` from [Releases](https://github.com/jmxt3/pdf-splitter/releases)
+1. **Windows**: Download `pdf-splitter.exe` from [Releases](https://github.com/jmxt3/pdf-splitter/tree/main/release/windows)
 
 **Quick Start with Executable:**
 ```bash
