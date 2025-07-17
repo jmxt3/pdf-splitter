@@ -1,5 +1,9 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "pdf-breaker"
+name = "pdf-splitter"
 version = "0.1.0"
 description = "A command-line tool to split PDF files into smaller chunks with automatic filename generation"
 readme = "README.md"
@@ -11,3 +15,9 @@ dependencies = [
 
 [project.scripts]
 pdf-splitter = "main:main"
+
+[tool.setuptools]
+py-modules = ["main"]
+
+[tool.uv]
+package = true
