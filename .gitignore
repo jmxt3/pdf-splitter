@@ -12,3 +12,5 @@ wheels/
 .venv
 *.pdf
 output-folder/*
+llm_context/*
+llm_context/
