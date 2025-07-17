@@ -11,7 +11,7 @@ def check_external_tool(tool_name):
     """Check if an external tool is available in the system PATH."""
     return shutil.which(tool_name) is not None
 
-def split_with_pdftk(input_pdf_path, pages_per_chunk, output_folder, input_basename):
+def split_with_pdftk(input_pdf_path, pages_per_chunk, output_folder, input_basename, show_progress=True):
     """Split PDF using pdftk as fallback method."""
     click.echo("🔧 Attempting to split using pdftk...")
 
@@ -37,23 +37,45 @@ def split_with_pdftk(input_pdf_path, pages_per_chunk, output_folder, input_basen
             chunk_number = 1
             total_chunks = (total_pages + pages_per_chunk - 1) // pages_per_chunk
 
-            for i in range(0, total_pages, pages_per_chunk):
-                chunk_files = page_files[i:i + pages_per_chunk]
-                output_filename = os.path.join(output_folder, f"{input_basename}_{chunk_number}.pdf")
+            # Create progress bar for chunk creation (if enabled)
+            chunk_range = range(0, total_pages, pages_per_chunk)
 
-                click.echo(f"📄 Creating chunk {chunk_number}/{total_chunks} ({len(chunk_files)} pages)...")
+            if show_progress:
+                with click.progressbar(chunk_range,
+                                     label='Creating chunks with pdftk',
+                                     length=total_chunks,
+                                     show_eta=True,
+                                     show_percent=True) as chunks_progress:
 
-                # Use pdftk to combine pages into chunk
-                cmd = ['pdftk'] + chunk_files + ['cat', 'output', output_filename]
-                subprocess.run(cmd, capture_output=True, text=True, check=True)
+                    for i in chunks_progress:
+                        chunk_files = page_files[i:i + pages_per_chunk]
+                        output_filename = os.path.join(output_folder, f"{input_basename}_{chunk_number}.pdf")
 
-                click.echo(f"✅ Created: {output_filename}")
-                chunk_number += 1
+                        # Use pdftk to combine pages into chunk
+                        cmd = ['pdftk'] + chunk_files + ['cat', 'output', output_filename]
+                        subprocess.run(cmd, capture_output=True, text=True, check=True)
+
+                        chunk_number += 1
+            else:
+                for i in chunk_range:
+                    chunk_files = page_files[i:i + pages_per_chunk]
+                    output_filename = os.path.join(output_folder, f"{input_basename}_{chunk_number}.pdf")
+
+                    click.echo(f"📄 Creating chunk {chunk_number}/{total_chunks} ({len(chunk_files)} pages)...")
+
+                    # Use pdftk to combine pages into chunk
+                    cmd = ['pdftk'] + chunk_files + ['cat', 'output', output_filename]
+                    subprocess.run(cmd, capture_output=True, text=True, check=True)
+
+                    click.echo(f"✅ Created: {output_filename}")
+                    chunk_number += 1
+
+            click.echo(f"✅ Successfully created {total_chunks} chunks using pdftk")
 
         except subprocess.CalledProcessError as e:
             raise Exception(f"pdftk failed: {e.stderr}")
 
-def split_with_qpdf(input_pdf_path, pages_per_chunk, output_folder, input_basename):
+def split_with_qpdf(input_pdf_path, pages_per_chunk, output_folder, input_basename, show_progress=True):
     """Split PDF using qpdf as fallback method."""
     click.echo("🔧 Attempting to split using qpdf...")
 
@@ -87,28 +109,55 @@ def split_with_qpdf(input_pdf_path, pages_per_chunk, output_folder, input_basena
             chunk_number = 1
             total_chunks = (total_pages + pages_per_chunk - 1) // pages_per_chunk
 
-            for i in range(0, total_pages, pages_per_chunk):
-                chunk_files = page_files[i:i + pages_per_chunk]
-                output_filename = os.path.join(output_folder, f"{input_basename}_{chunk_number}.pdf")
+            # Create progress bar for chunk creation (if enabled)
+            chunk_range = range(0, total_pages, pages_per_chunk)
 
-                click.echo(f"📄 Creating chunk {chunk_number}/{total_chunks} ({len(chunk_files)} pages)...")
+            if show_progress:
+                with click.progressbar(chunk_range,
+                                     label='Creating chunks with qpdf+pypdf',
+                                     length=total_chunks,
+                                     show_eta=True,
+                                     show_percent=True) as chunks_progress:
 
-                # Combine individual pages using pypdf
-                writer = PdfWriter()
-                for page_file in chunk_files:
-                    reader = PdfReader(page_file)
-                    writer.add_page(reader.pages[0])
+                    for i in chunks_progress:
+                        chunk_files = page_files[i:i + pages_per_chunk]
+                        output_filename = os.path.join(output_folder, f"{input_basename}_{chunk_number}.pdf")
 
-                with open(output_filename, "wb") as output_pdf:
-                    writer.write(output_pdf)
+                        # Combine individual pages using pypdf
+                        writer = PdfWriter()
+                        for page_file in chunk_files:
+                            reader = PdfReader(page_file)
+                            writer.add_page(reader.pages[0])
 
-                click.echo(f"✅ Created: {output_filename}")
-                chunk_number += 1
+                        with open(output_filename, "wb") as output_pdf:
+                            writer.write(output_pdf)
+
+                        chunk_number += 1
+            else:
+                for i in chunk_range:
+                    chunk_files = page_files[i:i + pages_per_chunk]
+                    output_filename = os.path.join(output_folder, f"{input_basename}_{chunk_number}.pdf")
+
+                    click.echo(f"📄 Creating chunk {chunk_number}/{total_chunks} ({len(chunk_files)} pages)...")
+
+                    # Combine individual pages using pypdf
+                    writer = PdfWriter()
+                    for page_file in chunk_files:
+                        reader = PdfReader(page_file)
+                        writer.add_page(reader.pages[0])
+
+                    with open(output_filename, "wb") as output_pdf:
+                        writer.write(output_pdf)
+
+                    click.echo(f"✅ Created: {output_filename}")
+                    chunk_number += 1
+
+            click.echo(f"✅ Successfully created {total_chunks} chunks using qpdf+pypdf")
 
         except subprocess.CalledProcessError as e:
             raise Exception(f"qpdf failed: {e.stderr}")
 
-def split_pdf_by_chunks(input_pdf_path, pages_per_chunk=5, output_folder="output_chunks"):
+def split_pdf_by_chunks(input_pdf_path, pages_per_chunk=5, output_folder="output_chunks", show_progress=True):
     """
     Splits a PDF file into multiple PDF files, each containing a specified number of pages.
     Optimized for large PDF files by using memory-efficient processing.
@@ -170,7 +219,7 @@ def split_pdf_by_chunks(input_pdf_path, pages_per_chunk=5, output_folder="output
                     # Try pdftk first (most reliable for corrupted PDFs)
                     if check_external_tool('pdftk'):
                         try:
-                            split_with_pdftk(input_pdf_path, pages_per_chunk, output_folder, input_basename)
+                            split_with_pdftk(input_pdf_path, pages_per_chunk, output_folder, input_basename, show_progress)
                             return  # Success! Exit the function
                         except Exception as pdftk_error:
                             click.echo(f"⚠️  pdftk failed: {str(pdftk_error)}")
@@ -178,7 +227,7 @@ def split_pdf_by_chunks(input_pdf_path, pages_per_chunk=5, output_folder="output
                     # Try qpdf as second option
                     if check_external_tool('qpdf'):
                         try:
-                            split_with_qpdf(input_pdf_path, pages_per_chunk, output_folder, input_basename)
+                            split_with_qpdf(input_pdf_path, pages_per_chunk, output_folder, input_basename, show_progress)
                             return  # Success! Exit the function
                         except Exception as qpdf_error:
                             click.echo(f"⚠️  qpdf failed: {str(qpdf_error)}")
@@ -223,53 +272,89 @@ Manual alternatives:
     chunk_number = 1
     total_chunks = (total_pages + pages_per_chunk - 1) // pages_per_chunk
 
-    for i in range(0, total_pages, pages_per_chunk):
-        try:
-            click.echo(f"📄 Processing chunk {chunk_number}/{total_chunks} (pages {i+1}-{min(i + pages_per_chunk, total_pages)})...")
+    # Process chunks with or without progress bar
+    def process_chunks(chunk_iterator):
+        nonlocal chunk_number
+        for i in chunk_iterator:
+            try:
+                # Create a new writer for each chunk to minimize memory usage
+                writer = PdfWriter()
 
-            # Create a new writer for each chunk to minimize memory usage
-            writer = PdfWriter()
+                # Add pages to the writer with individual error handling
+                start_page = i
+                end_page = min(i + pages_per_chunk, total_pages)
+                pages_added = 0
 
-            # Add pages to the writer with individual error handling
-            start_page = i
-            end_page = min(i + pages_per_chunk, total_pages)
-            pages_added = 0
+                # Create nested progress bar for pages within chunk (only for large chunks and if progress enabled)
+                page_range = range(start_page, end_page)
+                if show_progress and len(page_range) > 10:  # Only show page progress for chunks with >10 pages
+                    with click.progressbar(page_range,
+                                         label=f'  Chunk {chunk_number} pages',
+                                         show_eta=False,
+                                         show_percent=False,
+                                         file=sys.stderr) as pages_progress:
+                        for j in pages_progress:
+                            try:
+                                # Access page directly without storing reference to minimize memory usage
+                                page = reader.pages[j]
+                                writer.add_page(page)
+                                pages_added += 1
+                            except Exception as e:
+                                click.echo(f"⚠️  Warning: Failed to process page {j + 1}: {str(e)}", err=True)
+                                continue
+                else:
+                    # For smaller chunks or no progress, process without nested progress bar
+                    for j in page_range:
+                        try:
+                            # Access page directly without storing reference to minimize memory usage
+                            page = reader.pages[j]
+                            writer.add_page(page)
+                            pages_added += 1
+                        except Exception as e:
+                            click.echo(f"⚠️  Warning: Failed to process page {j + 1}: {str(e)}", err=True)
+                            continue
 
-            for j in range(start_page, end_page):
-                try:
-                    # Access page directly without storing reference to minimize memory usage
-                    page = reader.pages[j]
-                    writer.add_page(page)
-                    pages_added += 1
-                except Exception as e:
-                    click.echo(f"⚠️  Warning: Failed to process page {j + 1}: {str(e)}", err=True)
+                if pages_added == 0:
+                    click.echo(f"❌ Skipping chunk {chunk_number}: No pages could be processed", err=True)
+                    chunk_number += 1
                     continue
 
-            if pages_added == 0:
-                click.echo(f"❌ Skipping chunk {chunk_number}: No pages could be processed", err=True)
-                chunk_number += 1
-                continue
+                # Generate output filename using original basename and sequential number
+                output_filename = os.path.join(output_folder, f"{input_basename}_{chunk_number}.pdf")
 
-            # Generate output filename using original basename and sequential number
-            output_filename = os.path.join(output_folder, f"{input_basename}_{chunk_number}.pdf")
+                # Write the PDF with error handling
+                try:
+                    with open(output_filename, "wb") as output_pdf:
+                        writer.write(output_pdf)
+                    if not show_progress:  # Only show individual success messages when no progress bar
+                        click.echo(f"✅ Created: {output_filename} ({pages_added} pages)")
+                except Exception as e:
+                    raise Exception(f"Failed to write chunk {chunk_number} to '{output_filename}': {str(e)}")
 
-            # Write the PDF with error handling
-            try:
-                with open(output_filename, "wb") as output_pdf:
-                    writer.write(output_pdf)
-                click.echo(f"✅ Created: {output_filename} ({pages_added} pages)")
             except Exception as e:
-                raise Exception(f"Failed to write chunk {chunk_number} to '{output_filename}': {str(e)}")
+                click.echo(f"❌ Error processing chunk {chunk_number}: {str(e)}", err=True)
+                # Continue with next chunk instead of failing completely
 
-        except Exception as e:
-            click.echo(f"❌ Error processing chunk {chunk_number}: {str(e)}", err=True)
-            # Continue with next chunk instead of failing completely
+            finally:
+                # Force garbage collection after each chunk to free memory
+                gc.collect()
 
-        finally:
-            # Force garbage collection after each chunk to free memory
-            gc.collect()
+            chunk_number += 1
 
-        chunk_number += 1
+    # Create main progress bar for chunk processing (if enabled)
+    chunk_range = range(0, total_pages, pages_per_chunk)
+
+    if show_progress:
+        with click.progressbar(chunk_range,
+                             label='Processing PDF chunks',
+                             length=total_chunks,
+                             show_eta=True,
+                             show_percent=True) as chunks_progress:
+            process_chunks(chunks_progress)
+    else:
+        process_chunks(chunk_range)
+
+    click.echo(f"✅ Successfully created {chunk_number - 1} chunks")
 
 @click.command(name="pdf-splitter")
 @click.argument('input_pdf', type=click.Path(exists=True, dir_okay=False, path_type=str))
@@ -277,8 +362,10 @@ Manual alternatives:
               help='Number of pages per output file (default: 5)')
 @click.option('-o', '--output-folder', default='output_chunks', type=str,
               help='Output folder for split PDF files (default: "output_chunks")')
+@click.option('--no-progress', is_flag=True, default=False,
+              help='Disable progress bars (useful for scripting)')
 @click.help_option('-h', '--help')
-def main(input_pdf, pages_per_chunk, output_folder):
+def main(input_pdf, pages_per_chunk, output_folder, no_progress):
     """
     Split a PDF file into multiple smaller PDF files with sequential numbering.
 
@@ -290,11 +377,18 @@ def main(input_pdf, pages_per_chunk, output_folder):
       pdf-splitter document.pdf -p 10              # Split every 10 pages
       pdf-splitter document.pdf -p 3 -o my_output # Split every 3 pages, output to 'my_output' folder
       pdf-splitter /path/to/report.pdf -p 1       # Split into individual pages
+      pdf-splitter document.pdf --no-progress     # Disable progress bars (useful for scripting)
 
     \b
     Output file naming:
       - Input: "document.pdf" -> Output: "document_1.pdf", "document_2.pdf", etc.
       - Input: "report.pdf" -> Output: "report_1.pdf", "report_2.pdf", etc.
+
+    \b
+    Progress bars:
+      - Shows overall progress for chunk processing
+      - Shows detailed page progress for large chunks (>10 pages)
+      - Use --no-progress to disable for automated scripts
     """
 
     # Validate input file is a PDF
@@ -311,7 +405,7 @@ def main(input_pdf, pages_per_chunk, output_folder):
         click.echo(f"Splitting '{input_pdf}' into chunks of {pages_per_chunk} pages...")
         click.echo(f"Output folder: '{output_folder}'")
 
-        split_pdf_by_chunks(input_pdf, pages_per_chunk, output_folder)
+        split_pdf_by_chunks(input_pdf, pages_per_chunk, output_folder, show_progress=not no_progress)
 
         click.echo(click.style("PDF splitting completed successfully!", fg='green', bold=True))
 
