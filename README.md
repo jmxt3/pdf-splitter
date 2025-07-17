@@ -4,7 +4,7 @@
 [![Python Support](https://img.shields.io/pypi/pyversions/pdf-splitter-cli.svg)](https://pypi.org/project/pdf-splitter-cli/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A modern command-line tool to split PDF files into smaller chunks with **real-time progress bars** and automatic filename generation.
+A modern command-line tool to split BIG PDF files into smaller chunks with **real-time progress bars** and automatic filename generation.
 
 ## ✨ Features
 
@@ -34,7 +34,7 @@ pip install pdf-splitter-cli
 # Basic usage - split every 5 pages (default)
 pdf-splitter document.pdf
 
-# Custom chunk size - split every 10 pages  
+# Custom chunk size - split every 10 pages
 pdf-splitter document.pdf -p 10
 
 # Custom output folder
