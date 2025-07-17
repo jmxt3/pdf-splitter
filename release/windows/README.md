@@ -1,24 +1,26 @@
 # PDF Splitter CLI - Windows Release
 
 ## Quick Start
-
-1. Download the pdf-splitter.exe file
-2. Open Command Prompt or PowerShell
-3. Navigate to the folder containing the executable
-4. Run the executable:
+1. Download the pdf-splitter file [HERE](https://github.com/jmxt3/pdf-splitter/blob/main/release/windows/pdf-splitter)
+2. Download the `install_to_path.ps1` script [HERE](https://github.com/jmxt3/pdf-splitter/blob/main/release/windows/install_to_path.ps1)
+3. Open Microsoft PowerShell with Administrator privileges and navigate to the folder containing the executable
+4. Execute the `install_to_path.ps1` script to add the executable to your PATH (the script should be on the same folder of the executable)
+5. Close the PowerShell window
+6. Open a new PowerShell window
+7. Type `pdf-splitter --help` to verify the installation
 
 ```
 # Show help
-pdf-splitter.exe --help
+pdf-splitter --help
 
 # Split a PDF into 5-page chunks (default)
-pdf-splitter.exe document.pdf
+pdf-splitter document.pdf
 
 # Split into 10-page chunks
-pdf-splitter.exe document.pdf -p 10
+pdf-splitter document.pdf -p 10
 
 # Split into custom output folder
-pdf-splitter.exe document.pdf -o my_output
+pdf-splitter document.pdf -o my_output
 ```
 
 ## Features
@@ -33,22 +35,6 @@ pdf-splitter.exe document.pdf -o my_output
 ## File Size
 
 Executable size: 10.6 MB
-
-## Example Usage
-
-```
-# Basic usage - split into 5-page chunks
-pdf-splitter.exe my-document.pdf
-
-# Custom page count
-pdf-splitter.exe large-report.pdf -p 20
-
-# Custom output folder
-pdf-splitter.exe presentation.pdf -o split-slides
-
-# Disable progress bars (for automation)
-pdf-splitter.exe document.pdf --no-progress
-```
 
 ## Troubleshooting
 
