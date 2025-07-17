@@ -22,6 +22,26 @@ A modern command-line tool to split BIG PDF files into smaller chunks with **rea
 
 ## 🚀 Installation
 
+### 📥 For Non-Technical Users (Recommended)
+
+**Download the standalone executable - no Python installation required!**
+
+1. **Windows**: Download `pdf-splitter.exe` from [Releases](https://github.com/jmxt3/pdf-splitter/releases)
+2. **macOS**: Download `pdf-splitter` from [Releases](https://github.com/jmxt3/pdf-splitter/releases)
+3. **Linux**: Download `pdf-splitter` from [Releases](https://github.com/jmxt3/pdf-splitter/releases)
+
+**Quick Start with Executable:**
+```bash
+# Windows
+pdf-splitter.exe document.pdf
+
+# macOS/Linux (make executable first)
+chmod +x pdf-splitter
+./pdf-splitter document.pdf
+```
+
+### 🐍 For Python Developers
+
 ```bash
 pip install pdf-splitter-cli
 ```
@@ -126,14 +146,50 @@ Files are automatically named using the original filename:
 | `report.pdf` | `report_1.pdf`, `report_2.pdf`, ... |
 | `/path/to/file.pdf` | `file_1.pdf`, `file_2.pdf`, ... |
 
-## 🔧 Installation from Source
+## � Building Executables
+
+### For Developers: Create Your Own Executables
+
+You can build standalone executables for distribution:
+
+#### Windows
+```powershell
+# Clone and setup
+git clone https://github.com/jmxt3/pdf-splitter.git
+cd pdf-splitter
+uv sync
+
+# Build Windows executable
+powershell -ExecutionPolicy Bypass -File build_executable.ps1
+```
+
+#### macOS/Linux
+```bash
+# Clone and setup
+git clone https://github.com/jmxt3/pdf-splitter.git
+cd pdf-splitter
+uv sync
+
+# Build executable
+./build_executable.sh
+```
+
+#### Cross-Platform Python Script
+```bash
+# Build for current platform
+python build_executables.py
+```
+
+**Output**: Executables are created in `release/` folder with README files for distribution.
+
+## �🔧 Installation from Source
 
 For development or latest features:
 
 ```bash
 git clone https://github.com/jmxt3/pdf-splitter.git
 cd pdf-splitter
-pip install -e .
+uv sync  # or pip install -e .
 ```
 
 ## 📄 License
@@ -155,4 +211,19 @@ Found a bug or have a feature request? Please open an issue on [GitHub](https://
 
 ## 🏷️ Version History
 
+- **0.1.1**: Added standalone executables for Windows, macOS, and Linux
 - **0.1.0**: Initial release with progress bars and robust error handling
+
+## 📦 Distribution Options
+
+### For End Users
+- **Standalone Executables**: Download from [Releases](https://github.com/jmxt3/pdf-splitter/releases)
+  - No Python installation required
+  - Single file download
+  - Works immediately after download
+
+### For Developers
+- **PyPI Package**: `pip install pdf-splitter-cli`
+  - Integrates with Python environments
+  - Easy to include in scripts
+  - Automatic dependency management

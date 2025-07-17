@@ -1,0 +1,4 @@
+# SHA256 Checksums for PDF Splitter CLI v0.1.1
+# Generated automatically
+
+452098a182d49cc7ed2168f59e999c3e8fdf0a349e76d538711b8982467f335b  pdf-splitter-v0.1.1-windows-x64.exe
