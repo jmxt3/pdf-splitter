@@ -1,8 +1,8 @@
 # PDF Splitter CLI - Windows Release
 
 ## Quick Start
-1. Download the pdf-splitter file [HERE](https://github.com/jmxt3/pdf-splitter/blob/main/release/windows/pdf-splitter)
-2. Download the `install_to_path.ps1` script [HERE](https://github.com/jmxt3/pdf-splitter/blob/main/release/windows/install_to_path.ps1)
+1. Download the pdf-splitter file [RIGHT-CLICK AND SAVE](https://github.com/jmxt3/pdf-splitter/raw/refs/heads/main/release/windows/pdf-splitter.exe)
+2. Download the `install_to_path.ps1` script [RIGHT-CLICK AND SAVE](https://raw.githubusercontent.com/jmxt3/pdf-splitter/refs/heads/main/release/windows/install_to_path.ps1)
 3. Open Microsoft PowerShell with Administrator privileges and navigate to the folder containing the executable
 4. Execute the `install_to_path.ps1` script to add the executable to your PATH (the script should be on the same folder of the executable)
 5. Close the PowerShell window
