@@ -1,0 +1,14 @@
+include README.md
+include LICENSE
+include pyproject.toml
+include main.py
+exclude test_*.py
+exclude demo_*.py
+exclude *.pdf
+exclude .venv/
+exclude __pycache__/
+exclude *.egg-info/
+exclude dist/
+exclude build/
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]

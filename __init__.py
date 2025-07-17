@@ -1,1 +1,0 @@
-# PDF Splitter package

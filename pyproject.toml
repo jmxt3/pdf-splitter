@@ -1,17 +1,49 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pdf-splitter"
+name = "pdf-splitter-cli"
 version = "0.1.0"
-description = "A command-line tool to split PDF files into smaller chunks with automatic filename generation"
+description = "A modern command-line tool to split PDF files into smaller chunks with progress bars and automatic filename generation"
 readme = "README.md"
-requires-python = ">=3.13"
-dependencies = [
-    "click>=8.2.1",
-    "pypdf>=5.8.0",
+requires-python = ">=3.8"
+license = "MIT"
+authors = [
+    {name = "Joao Machete", email = "jmachete@gmail.com"},
 ]
+maintainers = [
+    {name = "Joao Machete", email = "jmachete@gmail.com"},
+]
+keywords = ["pdf", "split", "cli", "command-line", "pdf-tools", "document-processing"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Multimedia :: Graphics",
+    "Topic :: Office/Business",
+    "Topic :: System :: Archiving",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "click>=8.0.0",
+    "pypdf>=3.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/jmxt3/pdf-splitter"
+Repository = "https://github.com/jmxt3/pdf-splitter.git"
+Issues = "https://github.com/jmxt3/pdf-splitter/issues"
+Documentation = "https://github.com/jmxt3/pdf-splitter#readme"
 
 [project.scripts]
 pdf-splitter = "main:main"
@@ -19,5 +51,15 @@ pdf-splitter = "main:main"
 [tool.setuptools]
 py-modules = ["main"]
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["main*"]
+
 [tool.uv]
 package = true
+
+[dependency-groups]
+dev = [
+    "build>=1.2.2.post1",
+    "twine>=6.1.0",
+]
