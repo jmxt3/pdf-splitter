@@ -1,138 +1,38 @@
-﻿# PDF Splitter CLI - Windows Release
+# PDF Splitter CLI - Windows Release
 
-This guide explains how to add the PDF Splitter executable to the Windows PATH so users can run `pdf-splitter` from anywhere without navigating to the executable folder.
+## Quick Start
 
-## 🚀 How It Works
+1. Download the pdf-splitter.exe file
+2. Open Command Prompt or PowerShell
+3. Navigate to the folder containing the executable
+4. Run the executable:
 
-### Automatic Installation Process
-1. **Download**: User gets both `pdf-splitter.exe` and installation script
-2. **Run Script**: Right-click → "Run as administrator" and run the build_executable.ps1
-3. **Automatic Setup**:
-   - Creates `C:\Tools` directory
-   - Copies `pdf-splitter.exe` to `C:\Tools\pdf-splitter.exe`
-   - Adds `C:\Tools` to system PATH
-   - Verifies installation
-4. **Ready to Use**: Open new terminal, type `pdf-splitter --help`
+```
+# Show help
+pdf-splitter.exe --help
 
-### After PATH Installation
-```bash
-# User workflow - seamless
-1. Download and run installer (once)
-2. Open Command Prompt anywhere
-3. pdf-splitter document.pdf  # Works everywhere!
+# Split a PDF into 5-page chunks (default)
+pdf-splitter.exe document.pdf
+
+# Split into 10-page chunks
+pdf-splitter.exe document.pdf -p 10
+
+# Split into custom output folder
+pdf-splitter.exe document.pdf -o my_output
 ```
 
-## 🔧 Technical Implementation
+## Features
 
-### Directory Structure
-```
-C:\Tools\                    # Standard location for user tools
-└── pdf-splitter.exe        # Renamed from original filename
-```
+- ✅ No Python installation required
+- ✅ Standalone executable (includes everything needed)
+- ✅ Progress bars with estimated time remaining
+- ✅ Automatic output file naming
+- ✅ Handles large PDF files efficiently
+- ✅ Works on Windows 10/11
 
-### PATH Environment Variable
-- **Scope**: System-wide (all users)
-- **Location**: `HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment`
-- **Value**: Appends `;C:\Tools` to existing PATH
+## File Size
 
-### Error Handling
-- ✅ Administrator privilege checking
-- ✅ File existence verification
-- ✅ Directory creation with error handling
-- ✅ PATH duplication prevention
-- ✅ Installation verification
-- ✅ Clear error messages and solutions
-
-## 📖 Documentation Updates
-
-### Windows README.md
-- **Option 1**: Basic usage (original method)
-- **Option 2**: Global installation with 3 methods:
-  - **Method A**: Automatic installation (recommended)
-  - **Method B**: Manual GUI installation
-  - **Method C**: Manual command-line installation
-
-### Usage Examples
-- Shows both `pdf-splitter.exe` and `pdf-splitter` syntax
-- Demonstrates working from any folder
-- Includes troubleshooting for PATH issues
-
-### Release Notes
-- Updated quick start with PATH installation
-- Added verification commands
-- Included both installation methods
-
-## 🛠️ Build Integration
-
-### Build Scripts Updated
-- `build_executable.ps1` now copies installation scripts
-- `prepare_release.py` includes scripts in release package
-- Release preparation includes installation scripts
-
-### Release Package Contents
-```
-release_prep/
-├── pdf-splitter-v0.1.1-windows-x64.exe
-├── install_to_path.bat
-├── install_to_path.ps1
-├── SHA256SUMS.txt
-├── release_notes.md
-└── UPLOAD_INSTRUCTIONS.md
-```
-
-## 🎯 Benefits Achieved
-
-### For Non-Technical Users
-- ✅ **One-click installation** with automatic scripts
-- ✅ **Works from anywhere** after installation
-- ✅ **No technical knowledge required**
-- ✅ **Clear error messages** and troubleshooting
-
-### For Technical Users
-- ✅ **Multiple installation methods** (auto, GUI, CLI)
-- ✅ **Standard Windows practices** (C:\Tools, system PATH)
-- ✅ **Proper error handling** and verification
-- ✅ **Easy uninstallation** (remove from PATH, delete file)
-
-### For Developers
-- ✅ **Automated build integration**
-- ✅ **Comprehensive documentation**
-- ✅ **Cross-platform build scripts**
-- ✅ **Release automation**
-
-## 🔍 Verification Commands
-
-Users can verify their installation:
-
-```powershell
-# Check if pdf-splitter is in PATH
-where.exe pdf-splitter
-
-# Check current PATH
-echo $env:PATH
-
-# Test the command
-pdf-splitter --help
-
-# Verify file location
-Test-Path C:\Tools\pdf-splitter.exe
-```
-
-## 🚀 Next Steps
-
-1. **Test Installation Scripts**: Verify on clean Windows systems
-2. **Create GitHub Release**: Upload all files including installation scripts
-3. **Update Main README**: Add PATH installation as primary method
-4. **User Feedback**: Monitor for installation issues and improve scripts
-
-## 📞 Support
-
-Common issues and solutions are documented in:
-- `release/windows/README.md` - Comprehensive troubleshooting
-- `release_prep/release_notes.md` - Quick start guide
-- GitHub Issues - Community support
-
-The PATH installation feature makes PDF Splitter CLI as easy to use as any professional Windows application! 🎉
+Executable size: 10.6 MB
 
 ## Example Usage
 
@@ -152,7 +52,7 @@ pdf-splitter.exe document.pdf --no-progress
 
 ## Troubleshooting
 
-- **Windows Defender Warning**: The executable might trigger a warning because it's not digitally signed. Click "More info" â†’ "Run anyway"
+- **Windows Defender Warning**: The executable might trigger a warning because it's not digitally signed. Click "More info" → "Run anyway"
 - **Antivirus Software**: Some antivirus programs may flag PyInstaller executables. Add an exception if needed
 - **Large Files**: For very large PDFs (>1GB), the process may take several minutes
 
